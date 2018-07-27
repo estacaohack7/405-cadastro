@@ -14,17 +14,21 @@ fs.readFile(arquivo, (erro, dados) => {
     }
     
     if(comando === 'salvar'){
-        cadastros[nome] = email;
+        if(!nome || !email){
+            console.log('Digite o nome e o email, cacilda!');
+        }else{
+            cadastros[nome] = email;
     
-        let dados = JSON.stringify(cadastros);
-
-        fs.writeFile(arquivo, dados, (erro) => {
-            if(erro){
-                console.log('Deu ruim');
-            }else{
-                console.log('Gravei o arquivo');
-            }
-        });
+            let dados = JSON.stringify(cadastros);
+    
+            fs.writeFile(arquivo, dados, (erro) => {
+                if(erro){
+                    console.log('Deu ruim');
+                }else{
+                    console.log('Gravei o arquivo');
+                }
+            });
+        }
     }else if(comando === 'buscar'){
         console.log(cadastros[nome]);
     }else if (comando === 'buscar-todos'){
