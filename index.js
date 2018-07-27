@@ -7,8 +7,11 @@ const arquivo = 'cadastros.json';
 let cadastros = {};
 
 fs.readFile(arquivo, (erro, dados) => {
-    let dadosString = dados.toString();
-    cadastros = JSON.parse(dadosString);
+
+    if(!erro){
+        let dadosString = dados.toString();
+        cadastros = JSON.parse(dadosString);
+    }
     
     if(comando === 'salvar'){
         cadastros[nome] = email;
