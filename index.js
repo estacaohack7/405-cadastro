@@ -6,37 +6,48 @@ const arquivo = 'cadastros.json';
 
 let cadastros = {};
 
-fs.readFile(arquivo, (erro, dados) => {
+let comandos = {
+    'salvar': salvar,
+    'buscar': buscar,
+    'buscar-todos': buscarTodos
+}
 
+fs.readFile(arquivo, (erro, dados) => {
     if(!erro){
         let dadosString = dados.toString();
         cadastros = JSON.parse(dadosString);
     }
-    
-    if(comando === 'salvar'){
-        if(!nome || !email){
-            console.log('Digite o nome e o email, cacilda!');
-        }else{
-            cadastros[nome] = email;
-    
-            let dados = JSON.stringify(cadastros);
-    
-            fs.writeFile(arquivo, dados, (erro) => {
-                if(erro){
-                    console.log('Deu ruim');
-                }else{
-                    console.log('Gravei o arquivo');
-                }
-            });
-        }
-    }else if(comando === 'buscar'){
-        console.log(cadastros[nome]);
-    }else if (comando === 'buscar-todos'){
-        console.log(cadastros);
-    }else{
-        console.log('Tá na disney! Não tem esse comando.')
+
+    if(!comandos[comando]){
+        console.log('Tá na disney! Não tem esse comando.');
+        return;
     }
     
+    comandos[comando]();
 });
 
+function salvar(){
+    if(!nome || !email){
+        console.log('Digite o nome e o email, cacilda!');
+        return;
+    }
+    cadastros[nome] = email;
 
+    let dados = JSON.stringify(cadastros);
+
+    fs.writeFile(arquivo, dados, (erro) => {
+        if(erro){
+            console.log('Deu ruim');
+        }else{
+            console.log('Gravei o arquivo');
+        }
+    });
+}
+
+function buscar(){
+    console.log(cadastros[nome]);
+}
+
+function buscarTodos(){
+    console.log(cadastros);
+}
